@@ -14,6 +14,7 @@ use Livewire\Component;
 class BillPayment extends Component
 {
     public $bill_type = '';
+    public $provider = '';
     public $customer_reference = '';
     public $amount = '';
     public $selectedBillType = null;
@@ -41,6 +42,7 @@ class BillPayment extends Component
 
     protected $rules = [
         'bill_type' => 'required|in:electricity,water,internet',
+        'provider' => 'required|string',
         'customer_reference' => 'required|string|min:5',
         'amount' => 'required|numeric|min:100',
     ];
@@ -54,7 +56,7 @@ class BillPayment extends Component
     {
         $this->bill_type = $type;
         $this->selectedBillType = $this->billTypes[$type];
-        $this->reset(['customer_reference', 'amount']);
+        $this->reset(['provider', 'customer_reference', 'amount']);
     }
 
     public function processPayment()
@@ -88,7 +90,7 @@ class BillPayment extends Component
                 'balance_after' => $account->balance,
                 'bill_type' => $this->bill_type,
                 'bill_reference' => $this->customer_reference,
-                'narration' => ucfirst($this->bill_type) . ' bill payment - ' . $this->customer_reference,
+                'narration' => $this->provider . ' ' . ucfirst($this->bill_type) . ' - ' . $this->customer_reference,
                 'status' => 'completed',
             ]);
 
@@ -96,7 +98,7 @@ class BillPayment extends Component
 
             session()->flash('success', 'Bill payment successful! ₦' . number_format($this->amount, 2) . ' paid for ' . $this->selectedBillType['name']);
 
-            $this->reset(['bill_type', 'customer_reference', 'amount', 'selectedBillType']);
+            $this->reset(['bill_type', 'provider', 'customer_reference', 'amount', 'selectedBillType']);
 
             return redirect()->route('dashboard');
 

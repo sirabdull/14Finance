@@ -43,12 +43,17 @@
 
                 {{-- Service Provider --}}
                 <div>
-                    <label class="label">Service Provider</label>
-                    <div class="bg-gray-50 border border-gray-200 rounded p-3">
-                        <p class="text-sm text-gray-700">
-                            {{ implode(' • ', $selectedBillType['providers']) }}
-                        </p>
-                    </div>
+                    <label for="provider" class="label">Service Provider</label>
+                    <select id="provider" wire:model="provider"
+                        class="input-field @error('provider') border-red-500 @enderror" required>
+                        <option value="">Select a provider</option>
+                        @foreach($selectedBillType['providers'] as $provider)
+                            <option value="{{ $provider }}">{{ $provider }}</option>
+                        @endforeach
+                    </select>
+                    @error('provider')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 {{-- Customer Reference --}}
