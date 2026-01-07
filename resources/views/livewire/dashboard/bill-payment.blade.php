@@ -90,7 +90,7 @@
 
                 {{-- Submit Button --}}
                 <div class="flex gap-3">
-                    <button type="submit" class="flex-1 btn-primary" @if(!$customer_reference || !$amount) disabled @endif>
+                    <button type="submit" class="flex-1 btn-primary" @if(!$provider || !$customer_reference || !$amount) disabled @endif>
                         Pay ₦{{ $amount ? number_format($amount, 2) : '0.00' }}
                     </button>
                     <button type="button" wire:click="$set('selectedBillType', null)" class="btn-secondary">
